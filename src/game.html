@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nim Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="game.html">Play</a>
+    </nav>
+
+    <h1>Nim Game</h1>
+
+    <p>Game ID: <span id="gameId"></span></p>
+
+    <div id="game">
+        <div class="pile" id="pile1">
+            <div id="pile1-sticks"></div>
+            <button onclick="removeStones(1)">Remove 1</button>
+            <button onclick="removeStones(2)">Remove 2</button>
+            <button onclick="removeStones(3)">Remove 3</button>
+        </div>
+    </div>
+
+    <h2 id="message"></h2>
+
+</body>
+</html>

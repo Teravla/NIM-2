@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nim Game - Home</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/switch.css"> <!-- Fichier CSS du switch -->
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="game.html">Play</a>
+    </nav>
+
+    <h1>Welcome to Nim Game</h1>
+
+    <h2>Choose Game Mode</h2>
+    
+    <!-- Switch personnalisé -->
+    <label class="switch">
+        <input type="checkbox" id="gameModeToggle">
+        <div class="slider"></div>
+        <div class="slider-card">
+            <div class="slider-card-face slider-card-front"></div>
+            <div class="slider-card-face slider-card-back"></div>
+        </div>
+    </label>
+
+    <!-- Texte dynamique pour afficher le mode du jeu -->
+    <p id="gameModeText">Public Game</p>
+
+    <!-- Affichage pour la partie publique -->
+    <div id="publicGameSection">
+        <input type="number" id="sticksInput" placeholder="Enter number of sticks" min="1" />
+        <button id="startGameBtn">Start Game</button>
+        <button id="joinGameBtn" style="display: none;">Join Game</button>
+        <p id="privateCode" style="display: none;">Game Code: <span></span></p>
+    </div>
+
+    <!-- Affichage pour la partie privée -->
+    <div id="privateGameSection" style="display: none;">
+        <h2>Join Private Game</h2>
+        <input type="text" id="gameCodeInput" placeholder="Enter Game Code">
+        <button id="joinPrivateGameBtn">Join</button>
+    </div>
+
+</body>
+</html>
