@@ -6,7 +6,7 @@
     <title>Nim Game - Home</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/switch.css"> <!-- Fichier CSS du switch -->
-    <script src="menu.js" defer></script>
+    <script src="./js/menu.js" defer></script>
 </head>
 <body>
 
@@ -37,14 +37,17 @@
         <input type="number" id="sticksInput" placeholder="Enter number of sticks" min="1" />
         <button id="startGameBtn">Start Game</button>
         <button id="joinGameBtn" style="display: none;">Join Game</button>
-        <p id="privateCode" style="display: none;">Game Code: <span></span></p>
+        <p id="publicPrivateCode" style="display: none;">Game Code: <span></span></p> <!-- Changer l'ID ici -->
     </div>
 
     <!-- Affichage pour la partie privée -->
     <div id="privateGameSection" style="display: none;">
         <h2>Join Private Game</h2>
         <input type="text" id="gameCodeInput" placeholder="Enter Game Code">
-        <button id="joinPrivateGameBtn">Join</button>
+        <p>Or get a code to share with friends</p>
+        <button id="generateCodeBtn">Generate Code</button>
+        <p id="privateCode" style="display: none;">Game Code: <span></span></p> <!-- Garder l'ID ici -->
+        <button id="joinPrivateGameBtn" style="display: none;">Join</button> <!-- Masqué au départ -->
     </div>
 
 </body>

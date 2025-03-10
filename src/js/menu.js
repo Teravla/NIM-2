@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let gameMode = "public"; // Initialiser le mode à "public"
+    console.log("Menu JS Loaded");
+    let gameMode = "public";
     let gameCode = "";
 
     const toggle = document.getElementById("gameModeToggle");
@@ -10,37 +11,48 @@ document.addEventListener("DOMContentLoaded", function () {
     const privateCodeSpan = privateCodeContainer.querySelector("span");
     const startGameBtn = document.getElementById("startGameBtn");
     const joinGameBtn = document.getElementById("joinGameBtn");
+    const generateCodeBtn = document.getElementById("generateCodeBtn");
 
-    // Fonction pour générer un code de partie privée
     function generateGameCode() {
-        return Math.random().toString(36).substr(2, 9).toUpperCase();
+        return Math.random().toString(36).substr(2, 9).toUpperCase(); 
     }
 
-    // Fonction pour gérer le changement de mode
     function toggleGameMode() {
-        gameMode = toggle.checked ? "private" : "public"; // Mise à jour du mode
-        modeText.innerText = toggle.checked ? "Private Game" : "Public Game"; // Mise à jour du texte
+        gameMode = toggle.checked ? "private" : "public";
+        modeText.innerText = toggle.checked ? "Private Game" : "Public Game"; 
 
         if (gameMode === "private") {
-            gameCode = generateGameCode(); // Génère un code de jeu privé
-            privateCodeContainer.style.display = "block";
-            privateCodeSpan.innerText = gameCode;
-            publicGameSection.style.display = "none"; // Masquer la section publique
-            privateGameSection.style.display = "block"; // Afficher la section privée
-            startGameBtn.style.display = "none";
-            joinGameBtn.style.display = "block";
+            privateGameSection.style.display = "block";
+            publicGameSection.style.display = "none"; 
+            startGameBtn.style.display = "none"; 
+            joinGameBtn.style.display = "block"; 
+            generateCodeBtn.style.display = "inline-block";
+            privateCodeContainer.style.display = "none";
         } else {
-            privateCodeContainer.style.display = "none"; // Masquer le code de jeu privé
-            publicGameSection.style.display = "block"; // Afficher la section publique
-            privateGameSection.style.display = "none"; // Masquer la section privée
-            startGameBtn.style.display = "block";
-            joinGameBtn.style.display = "none";
+            privateGameSection.style.display = "none";
+            publicGameSection.style.display = "block";
+            startGameBtn.style.display = "block"; 
+            joinGameBtn.style.display = "none";  
+            generateCodeBtn.style.display = "none";
+            privateCodeContainer.style.display = "none";
         }
     }
 
-    // Ajout d'un écouteur d'événement sur le switch
+    function generateAndShowCode() {
+        gameCode = generateGameCode(); 
+        console.log("Game Code:", gameCode);
+        privateCodeContainer.style.display = "block";
+        privateCodeSpan.innerText = gameCode;
+        privateCodeContainer.style.display = "block";
+        generateCodeBtn.style.display = "none";
+    }
+
+
+    generateCodeBtn.addEventListener("click", function () {
+        generateAndShowCode();
+    });
+
     toggle.addEventListener("change", toggleGameMode);
 
-    // Initialiser l'affichage au chargement de la page
     toggleGameMode();
 });
