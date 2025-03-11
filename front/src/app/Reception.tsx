@@ -17,7 +17,7 @@ interface ReceptionProps {
 
 const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
     const [roomIdInput, setRoomIdInput] = useState("");
-    const [method, setMethod] = useState("joinOrCreate");
+    const [method, setMethod] = useState("create");
     const [theme, setTheme] = useState<"light" | "dark">("light");
 
     useEffect(() => {
@@ -45,13 +45,12 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                 case "create":
                     room = await client.create("nim_room");
                     break;
-                case "join":
+                case "joinPublicParty":
                     room = await client.join("nim_room");
                     break;
-                case "joinById":
+                case "joinPrivateParty":
                     room = await client.joinById(roomIdInput);
                     break;
-                case "joinOrCreate":
                 default:
                     room = await client.joinOrCreate("nim_room");
                     break;
@@ -110,8 +109,8 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                 <CardContent className="flex flex-col gap-6">
                     {/* Boutons radio pour choisir la méthode */}
                     <div className="flex flex-col space-y-2">
-                        {["joinOrCreate", "create", "join", "joinById"].map((option) => (
-                            <label key={option} className="flex items-center space-x-2 cursor-pointer">
+                        {["create", "joinPublicParty", "joinPrivateParty"].map((option) => (
+                            <label key={option} className="flex items-center gap-x-3 space-x-2 cursor-pointer">
                                 <input
                                     type="radio"
                                     value={option}
@@ -153,7 +152,7 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                     onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#5eb5a6")} // Couleur au survol
                     onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#7fd1ae")} // Retour à la couleur initiale
                 >
-                    {method === "joinById" ? "Rejoindre avec ID" : `Exécuter ${method}`}
+                    {method === "joinPrivateParty" ? "Rejoindre avec ID" : method === "create" ? "Créer une salle" : "Rejoindre une salle"}
                 </Button>
 
                 </CardContent>
