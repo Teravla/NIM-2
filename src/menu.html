@@ -4,30 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nim Game - Home</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/menu.css">
     <link rel="stylesheet" href="./css/switch.css"> <!-- Fichier CSS du switch -->
     <script src="./js/menu.js" defer></script>
 </head>
 <body>
 
     <nav>
-        <a href="index.html">Home</a>
+        <a href="menu.html">Home</a>
         <a href="game.html">Play</a>
     </nav>
 
     <h1>Welcome to Nim Game</h1>
 
+    <p id="PlayerId">Id du Joueur : <span></span></p>
+
     <h2>Choose Game Mode</h2>
     
     <!-- Switch personnalisé -->
-    <label class="switch">
-        <input type="checkbox" id="gameModeToggle">
-        <div class="slider"></div>
-        <div class="slider-card">
-            <div class="slider-card-face slider-card-front"></div>
-            <div class="slider-card-face slider-card-back"></div>
-        </div>
-    </label>
+    <div class="switch-container">
+        <label class="switch">
+            <input type="checkbox" id="gameModeToggle">
+            <div class="slider"></div>
+            <div class="slider-card">
+                <div class="slider-card-face slider-card-front"></div>
+                <div class="slider-card-face slider-card-back"></div>
+            </div>
+        </label>
+    </div>
 
     <!-- Texte dynamique pour afficher le mode du jeu -->
     <p id="gameModeText">Public Game</p>
@@ -39,16 +43,27 @@
         <button id="joinGameBtn" style="display: none;">Join Game</button>
         <p id="publicPrivateCode" style="display: none;">Game Code: <span></span></p> <!-- Changer l'ID ici -->
     </div>
-
-    <!-- Affichage pour la partie privée -->
+    
     <div id="privateGameSection" style="display: none;">
-        <h2>Join Private Game</h2>
+        <h2 class="private-game">Join Private Game</h2>
         <input type="text" id="gameCodeInput" placeholder="Enter Game Code">
         <p>Or get a code to share with friends</p>
-        <button id="generateCodeBtn">Generate Code</button>
-        <p id="privateCode" style="display: none;">Game Code: <span></span></p> <!-- Garder l'ID ici -->
-        <button id="joinPrivateGameBtn" style="display: none;">Join</button> <!-- Masqué au départ -->
+        <button id="generateCodeBtn">Create a private lobby</button>
+        <p id="privateCode" style="display: none;">Game Code: <span></span></p>
+        <button id="joinPrivateGameBtn" style="display: none;">Join</button>
+
+        <!-- Nouvelle section pour configurer la partie -->
+        <div id="setupGameSection" style="display: none;">
+            <h3>Setup Your Game</h3>
+            <label for="sticksInputLabel">Number of Sticks:</label>
+            <input type="number" id="sticksInput" min="1" placeholder="Enter number of sticks" required>
+            <button id="startPrivateGameBtn">Start Private Game</button>
+        </div>
+
     </div>
+
+
+
 
 </body>
 </html>

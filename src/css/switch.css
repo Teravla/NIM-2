@@ -1,3 +1,9 @@
+.switch-container {
+    display: flex;
+    justify-content: center;
+}
+
+
 .switch {
     --circle-dim: 1.4em;
     font-size: 17px;
