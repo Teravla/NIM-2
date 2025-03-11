@@ -34,34 +34,17 @@ const Game: React.FC<GameProps> = ({ roomId }) => {
             }
         };
 
-        const joinNimRoom = async () => {
-            try {
-                const room = await client.joinById<MyRoomState>(roomId);
-                roomRef.current = room;
-                console.log("✅ Connecté à la salle :", room.roomId);
-
-                room.onMessage("update", (state: MyRoomState) => {
-                    console.log("État mis à jour :", state);
-                    drawGame(state.heap);
-                });
-
-                room.onMessage("gameOver", (data: { winner: string }) => {
-                    console.log("🏆 Fin du jeu, gagnant :", data.winner);
-                });
-
-            } catch (error) {
-                console.error("❌ Erreur de connexion à la salle :", error);
-            }
-        };
-
-        joinNimRoom();
-
         return () => {
             roomRef.current?.leave();
         };
     }, [roomId]);
 
-    return <canvas ref={canvasRef} width={600} height={400} style={{ border: "1px solid black" }} />;
+    return (
+        <canvas
+            ref={canvasRef}
+            style={{ width: "100vw", height: "100vh", border: "1px solid black" }}
+        />
+    );
 };
 
 export default Game;
