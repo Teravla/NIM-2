@@ -5,14 +5,14 @@ export class NimRoom extends Room<MyRoomState> {
     maxClients = 2; // 2 joueurs max
 
     onCreate() {
-        this.state = new MyRoomState();
+        this.setState(new MyRoomState()); // Initialisez l'état de la salle
         console.log("🕹️ Salle de jeu Nim créée !");
 
         this.onMessage("take", (client, amount: number) => {
             if (this.state.currentPlayer !== client.sessionId) return;
 
             if (amount < 1 || amount > 3 || this.state.heap < amount) return;
-            
+
             this.state.heap -= amount;
             this.state.currentPlayer = this.clients.find(c => c.sessionId !== client.sessionId)?.sessionId || "";
 

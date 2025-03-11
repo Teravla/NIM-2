@@ -1,13 +1,19 @@
-// src/app/page.tsx
-import React from 'react';
-import Game from './Game'; // Assurez-vous que le chemin d'importation est correct
+"use client";
 
-const Home: React.FC = () => {
+import { useState } from "react";
+import Game from "./Game";
+import Reception from "./Reception";
+
+export default function Home() {
+    const [roomId, setRoomId] = useState<string | null>(null);
+
     return (
         <div>
-            <Game /> {/* Rend le composant Game ici */}
+            {roomId ? (
+                <Game roomId={roomId} />
+            ) : (
+                <Reception onJoin={(id) => setRoomId(id)} />
+            )}
         </div>
     );
-};
-
-export default Home;
+}
