@@ -67,7 +67,6 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
             className={cn("flex justify-center items-center h-screen", theme === "dark" ? "text-white" : "text-gray-900")}
             style={{ backgroundColor: theme === "dark" ? "#2f4858" : "#fffafa" }}
         >
-            {/* Bouton de basculement en haut à droite */}
             <button
                 className="theme-toggle absolute top-4 right-4"
                 id="theme-toggle"
@@ -80,16 +79,16 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                         <rect x="0" y="0" width="100%" height="100%" fill="white" />
                         <circle cx="24" cy="10" r="6" fill="black" />
                     </mask>
-                    <circle className="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                    <circle className="sun" cx="12" cy="12" r="5" mask="url(#moon-mask)" fill="currentColor" />
                     <g className="sun-beams" stroke="currentColor">
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        <line x1="12" y1="1" x2="12" y2="5" /> {/*N*/}
+                        <line x1="12" y1="19" x2="12" y2="23" /> {/*S*/}
+                        <line x1="4" y1="4" x2="7" y2="7" /> {/*NW*/}
+                        <line x1="17" y1="17" x2="20" y2="20" /> {/*SE*/}
+                        <line x1="1" y1="12" x2="5" y2="12" /> {/*W*/}
+                        <line x1="19" y1="12" x2="23" y2="12" /> {/*E*/}
+                        <line x1="4.22" y1="19.78" x2="7" y2="17" /> 
+                        <line x1="17" y1="7" x2="19.78" y2="4.22" />
                     </g>
                 </svg>
             </button>
@@ -100,11 +99,11 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                 style={{
                     backgroundColor: theme === "dark" ? "#5e6678" : "#dbd1d5",
                     borderColor: theme === "dark" ? "#374151" : "#e5e7eb",
-                    padding: "2rem", // Ajoutez ici le padding supplémentaire
+                    padding: "2rem",
                 }}
             >
                 <CardHeader>
-                    <CardTitle className="text-center text-xl font-bold">Bienvenue dans le jeu de Nim</CardTitle>
+                    <CardTitle className="text-center text-xl font-bold">Welcome</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-6">
                     {/* Boutons radio pour choisir la méthode */}
