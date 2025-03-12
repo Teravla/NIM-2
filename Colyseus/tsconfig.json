@@ -15,5 +15,5 @@
   },
   "include": [
     "src"
-  ]
+, "../front/src/app/api/prismaClient.ts"  ]
 }

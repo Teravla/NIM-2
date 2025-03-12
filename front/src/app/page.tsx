@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import Game from "./Game";
-import Reception from "./Reception";
+import { useEffect, useState } from "react";
+import Game from "@/app/Game";
+import Reception from "@/app/Reception";
 
 export default function Home() {
     const [roomInfo, setRoomInfo] = useState<{ state: "create" | "joinPublicParty" | "joinPrivateParty"; roomId: string | null } | null>(null);
+
+    useEffect(() => {
+        // Récupérer les informations de salle du localStorage
+        const storedRoomInfo = localStorage.getItem("roomInfo");
+        if (storedRoomInfo) {
+            setRoomInfo(JSON.parse(storedRoomInfo));
+        }
+    }, []);
 
     return (
         <div>
