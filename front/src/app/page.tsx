@@ -5,14 +5,14 @@ import Game from "./Game";
 import Reception from "./Reception";
 
 export default function Home() {
-    const [roomId, setRoomId] = useState<string | null>(null);
+    const [roomInfo, setRoomInfo] = useState<{ state: "create" | "joinPublicParty" | "joinPrivateParty"; roomId: string | null } | null>(null);
 
     return (
         <div>
-            {roomId ? (
-                <Game roomId={roomId} />
+            {roomInfo ? (
+                <Game roomInfo={roomInfo} /> // Assurez-vous que roomId n'est pas null
             ) : (
-                <Reception onJoin={(id) => setRoomId(id)} />
+                <Reception onRoomJoin={setRoomInfo} />
             )}
         </div>
     );

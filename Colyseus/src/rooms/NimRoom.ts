@@ -1,25 +1,24 @@
 import { Room, Client } from "colyseus";
-import { MyRoomState } from "./schema/MyRoomState";
+import { NimState, Player } from "./schema/NimState";
 
-export class NimRoom extends Room<MyRoomState> {
-    maxClients = 2; // 2 joueurs max
+export class NimRoom extends Room<NimState> {
+    maxClients = 2;
 
     onCreate() {
-        this.setState(new MyRoomState()); // Initialisez l'état de la salle
+        this.state = new NimState();
         console.log("🕹️ Salle de jeu Nim créée !");
 
-        this.onMessage("take", (client, amount: number) => {
+        this.onMessage("move", (client, { pileIndex, amount }) => {
             if (this.state.currentPlayer !== client.sessionId) return;
+            if (amount < 1 || this.state.piles[pileIndex] < amount) return;
 
-            if (amount < 1 || amount > 3 || this.state.heap < amount) return;
+            this.state.piles[pileIndex] -= amount;
 
-            this.state.heap -= amount;
-            this.state.currentPlayer = this.clients.find(c => c.sessionId !== client.sessionId)?.sessionId || "";
-
-            if (this.state.heap <= 0) {
+            if (this.state.piles.every(p => p === 0)) {
                 this.broadcast("gameOver", { winner: client.sessionId });
                 this.disconnect();
             } else {
+                this.switchTurn();
                 this.broadcast("update", this.state);
             }
         });
@@ -27,8 +26,21 @@ export class NimRoom extends Room<MyRoomState> {
 
     onJoin(client: Client) {
         console.log(`👤 Joueur ${client.sessionId} rejoint la partie.`);
-        if (!this.state.currentPlayer) {
+        
+        const newPlayer = new Player();
+        newPlayer.id = client.sessionId;
+        newPlayer.isTurn = this.state.players.size === 0; // Le premier joueur commence
+        
+        this.state.players.set(client.sessionId, newPlayer);
+
+        if (this.state.players.size === 2) {
             this.state.currentPlayer = client.sessionId;
+            this.broadcast("update", this.state);
         }
+    }
+
+    switchTurn() {
+        const playersArray = Array.from(this.state.players.values());
+        this.state.currentPlayer = playersArray.find(p => p.id !== this.state.currentPlayer)?.id || "";
     }
 }

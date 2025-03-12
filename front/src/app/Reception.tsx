@@ -1,21 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Client } from "colyseus.js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import "../styles/Reception.css";
 import { cn } from "@/lib/utils";
 
-const client = new Client("ws://localhost:2567");
-
 interface ReceptionProps {
-    onJoin: (roomId: string) => void;
+    onRoomJoin: (room: { state: "create" | "joinPublicParty" | "joinPrivateParty"; roomId: string | null }) => void;
 }
 
-const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
+const Reception: React.FC<ReceptionProps> = ({ onRoomJoin }) => {
     const [roomIdInput, setRoomIdInput] = useState("");
     const [method, setMethod] = useState("create");
     const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -40,27 +36,35 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
 
     const handleRoomAction = async () => {
         try {
-            let room;
+            let roomId: string | null = null;
+    
             switch (method) {
                 case "create":
-                    room = await client.create("nim_room");
+                    // Envoyer à Game.tsx : { state: "create", roomId: null }
+                    onRoomJoin({ state: "create", roomId });
                     break;
                 case "joinPublicParty":
-                    room = await client.join("nim_room");
+                    // Envoyer à Game.tsx : { state: "joinPublicParty", roomId: null }
+                    onRoomJoin({ state: "joinPublicParty", roomId });
                     break;
                 case "joinPrivateParty":
-                    room = await client.joinById(roomIdInput);
+                    roomId = roomIdInput; // Utiliser l'ID de salle saisi
+                    // Envoyer à Game.tsx : { state: "joinPrivateParty", roomId: roomIdInput }
+                    onRoomJoin({ state: "joinPrivateParty", roomId });
                     break;
                 default:
-                    room = await client.joinOrCreate("nim_room");
+                    // Envoyer à Game.tsx : { state: "create", roomId: null }
+                    onRoomJoin({ state: "create", roomId });
                     break;
             }
-            console.log(`✅ Connecté à la salle (${method}) :`, room.roomId);
-            onJoin(room.roomId);
+    
+            console.log(`✅ Action ${method} envoyée avec succès :`, { state: method, roomId });
+    
         } catch (error) {
             console.error(`❌ Erreur lors de ${method} :`, error);
         }
     };
+    
 
     return (
         <div
@@ -128,13 +132,12 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                                 <span>
                                     {option.replace(/([A-Z])/g, " $1").trim().replace(/^./, (str) => str.toUpperCase())}
                                 </span>
-
                             </label>
                         ))}
                     </div>
 
                     {/* Champ ID de salle si nécessaire */}
-                    {method === "joinById" && (
+                    {method === "joinPrivateParty" && (
                         <Input
                             type="text"
                             value={roomIdInput}
@@ -144,19 +147,18 @@ const Reception: React.FC<ReceptionProps> = ({ onJoin }) => {
                         />
                     )}
 
-                <Button
-                    onClick={handleRoomAction}
-                    className="w-full transition-all duration-200"
-                    style={{ backgroundColor: "#7fd1ae", color: "#ffffff" }} // Couleur du bouton
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#5eb5a6")} // Couleur au survol
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#7fd1ae")} // Retour à la couleur initiale
-                >
-                    {method === "joinPrivateParty" ? "Rejoindre avec ID" : method === "create" ? "Créer une salle" : "Rejoindre une salle"}
-                </Button>
+                    <Button
+                        onClick={handleRoomAction}
+                        className="w-full transition-all duration-200"
+                        style={{ backgroundColor: "#7fd1ae", color: "#ffffff" }} // Couleur du bouton
+                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#5eb5a6")} // Couleur au survol
+                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#7fd1ae")} // Retour à la couleur initiale
+                    >
+                        {method === "joinPrivateParty" ? "Rejoindre avec ID" : method === "create" ? "Créer une salle" : "Rejoindre une salle"}
+                    </Button>
 
                 </CardContent>
             </Card>
-
         </div>
     );
 };
